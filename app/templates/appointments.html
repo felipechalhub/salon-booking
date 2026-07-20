@@ -1,0 +1,43 @@
+<!-- app/templates/appointments.html -->
+{% extends "base.html" %}
+{% block title %}Appointments{% endblock %}
+
+{% block content %}
+<div style="display:flex; justify-content:space-between; align-items:center;">
+  <h2>Appointments</h2>
+</div>
+
+<!-- Filter form - submits as GET, no HTMX needed here -->
+<form method="get" action="/admin/appointments">
+  <div class="grid">
+    <input type="date" name="date" value="{{ filters.date }}" placeholder="Filter by date">
+    <select name="status">
+      <option value="">All statuses</option>
+      <option value="confirmed"  {% if filters.status == 'confirmed'  %}selected{% endif %}>Confirmed</option>
+      <option value="pending"    {% if filters.status == 'pending'    %}selected{% endif %}>Pending</option>
+      <option value="cancelled"  {% if filters.status == 'cancelled'  %}selected{% endif %}>Cancelled</option>
+      <option value="completed"  {% if filters.status == 'completed'  %}selected{% endif %}>Completed</option>
+    </select>
+    <button type="submit">Filter</button>
+  </div>
+</form>
+
+<table>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Date & Time</th>
+      <th>Client</th>
+      <th>Service</th>
+      <th>Staff</th>
+      <th>Status</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody id="appointments-table">
+    {% for appt in appointments %}
+    {% include "_appointment_row.html" %}
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

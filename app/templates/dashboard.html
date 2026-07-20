@@ -1,0 +1,54 @@
+<!-- app/templates/dashboard.html -->
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<h2>Dashboard</h2>
+
+<div class="grid">
+  <article>
+    <h3>{{ stats.today_total }}</h3>
+    <p>Appointments today</p>
+  </article>
+  <article>
+    <h3>{{ stats.today_confirmed }}</h3>
+    <p>Confirmed today</p>
+  </article>
+  <article>
+    <h3>{{ stats.upcoming_week }}</h3>
+    <p>This week</p>
+  </article>
+</div>
+
+<h3>Today's Schedule</h3>
+{% if today_appointments %}
+<table>
+  <thead>
+    <tr>
+      <th>Time</th>
+      <th>Client</th>
+      <th>Service</th>
+      <th>Staff</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for appt in today_appointments %}
+    <tr>
+      <td>{{ appt.start_time.strftime('%H:%M') }}</td>
+      <td>{{ appt.client.full_name }}</td>
+      <td>{{ appt.service.name }}</td>
+      <td>{{ appt.staff.full_name }}</td>
+      <td>
+        <span class="badge badge-{{ appt.status.value }}">
+          {{ appt.status.value }}
+        </span>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p>No appointments today.</p>
+{% endif %}
+{% endblock %}

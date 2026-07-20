@@ -1,0 +1,24 @@
+{% extends "base_booking.html" %}
+{% block title %}Booking {% if error %}Failed{% else %}Confirmed{% endif %}{% endblock %}
+
+{% block content %}
+{% if error %}
+  <article style="border-left: 4px solid var(--pico-color-red-500, #c0392b);">
+    <h2>Booking failed</h2>
+    <p>{{ error }}</p>
+    <p><a href="/book/">Start over</a></p>
+  </article>
+{% else %}
+  <article style="border-left: 4px solid var(--pico-color-green-500, #27ae60);">
+    <h2>You're booked, {{ client_name }}!</h2>
+    <p>
+      <strong>{{ service.name }}</strong> with {{ staff.full_name }}<br>
+      {{ slot_display }}
+    </p>
+    {% if appointment_id %}
+      <small style="color: var(--pico-muted-color);">Booking ref: #{{ appointment_id }}</small>
+    {% endif %}
+  </article>
+  <p style="margin-top: 1.5rem;"><a href="/book/">Book another appointment</a></p>
+{% endif %}
+{% endblock %}

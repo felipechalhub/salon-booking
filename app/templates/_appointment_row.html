@@ -1,0 +1,26 @@
+<!-- app/templates/_appointment_row.html -->
+<tr id="appt-{{ appt.id }}">
+  <td>{{ appt.id }}</td>
+  <td>{{ appt.start_time.strftime('%Y-%m-%d %H:%M') }}</td>
+  <td>{{ appt.client.full_name }}<br><small>{{ appt.client.phone }}</small></td>
+  <td>{{ appt.service.name }}</td>
+  <td>{{ appt.staff.full_name }}</td>
+  <td>
+    <span class="badge badge-{{ appt.status.value }}">
+      {{ appt.status.value }}
+    </span>
+  </td>
+  <td>
+    {% if appt.status.value not in ['cancelled', 'completed'] %}
+    <button
+      hx-patch="/admin/appointments/{{ appt.id }}/cancel"
+      hx-target="#appt-{{ appt.id }}"
+      hx-swap="outerHTML"
+      hx-confirm="Cancel this appointment?"
+      class="danger outline"
+      style="padding: 0.25rem 0.75rem; font-size: 0.85rem;">
+      Cancel
+    </button>
+    {% endif %}
+  </td>
+</tr>

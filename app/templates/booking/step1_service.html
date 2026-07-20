@@ -1,0 +1,33 @@
+{% extends "base_booking.html" %}
+{% block title %}Choose a Service{% endblock %}
+
+{% block content %}
+<h2>What service do you need?</h2>
+
+{% if services %}
+  <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 1.5rem;">
+    {% for service in services %}
+      <a href="/book/staff?service_id={{ service.id }}" style="text-decoration: none;">
+        <article style="cursor: pointer; margin: 0;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <strong>{{ service.name }}</strong>
+              {% if service.description %}
+                <p style="margin: 0.25rem 0 0; font-size: 0.9rem; color: var(--pico-muted-color);">
+                  {{ service.description }}
+                </p>
+              {% endif %}
+              <small style="color: var(--pico-muted-color);">{{ service.duration_minutes }} min</small>
+            </div>
+            <div style="text-align: right;">
+              <strong>${{ "%.2f"|format(service.price / 100) }}</strong>
+            </div>
+          </div>
+        </article>
+      </a>
+    {% endfor %}
+  </div>
+{% else %}
+  <p>No services available at the moment. Please check back later.</p>
+{% endif %}
+{% endblock %}

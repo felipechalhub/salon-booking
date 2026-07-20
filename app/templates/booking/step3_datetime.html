@@ -1,0 +1,26 @@
+{% extends "base_booking.html" %}
+{% block title %}Choose a Date & Time{% endblock %}
+
+{% block content %}
+<p><a href="/book/staff?service_id={{ service.id }}">&larr; Back to staff</a></p>
+<h2>Pick a date and time</h2>
+<p style="color: var(--pico-muted-color);">
+  {{ service.name }} with <strong>{{ staff.full_name }}</strong>
+</p>
+
+<label for="date-picker">Select a date</label>
+<input
+  type="date"
+  id="date-picker"
+  name="date"
+  min="{{ today }}"
+  style="max-width: 220px;"
+  hx-get="/book/slots?service_id={{ service.id }}&staff_id={{ staff.id }}"
+  hx-target="#slots-container"
+  hx-trigger="change"
+>
+
+<div id="slots-container" style="margin-top: 1.5rem;">
+  <p style="color: var(--pico-muted-color);">Select a date to see available times.</p>
+</div>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "base_booking.html" %}
+{% block title %}Choose a Staff Member{% endblock %}
+
+{% block content %}
+<p><a href="/book/">← Back to services</a></p>
+<h2>Choose your preferred staff</h2>
+<p style="color: var(--pico-muted-color);">Service: <strong>{{ service.name }}</strong></p>
+
+{% if staff_list %}
+  <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 1.5rem;">
+    {% for member in staff_list %}
+      <a href="/book/datetime?service_id={{ service.id }}&staff_id={{ member.id }}"
+         style="text-decoration: none;">
+        <article style="cursor: pointer; margin: 0;">
+          <strong>{{ member.full_name }}</strong>
+          {% if member.role %}
+            <p style="margin: 0.25rem 0 0; font-size: 0.9rem; color: var(--pico-muted-color);">
+              {{ member.role }}
+            </p>
+          {% endif %}
+        </article>
+      </a>
+    {% endfor %}
+  </div>
+{% else %}
+  <p>No staff available at the moment.</p>
+{% endif %}
+{% endblock %}

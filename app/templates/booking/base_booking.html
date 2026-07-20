@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Book an Appointment{% endblock %}</title>
+  <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+  <link rel="stylesheet" href="/static/booking.css">
+</head>
+<body>
+  <nav class="container-fluid">
+    <ul>
+      <li><strong>Book an Appointment</strong></li>
+    </ul>
+  </nav>
+
+  <main class="container" style="max-width: 640px; margin-top: 2rem;">
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>

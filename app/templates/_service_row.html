@@ -1,0 +1,22 @@
+<!-- app/templates/_service_row.html -->
+<tr id="service-{{ svc.id }}">
+  <td>{{ svc.name }}</td>
+  <td>{{ svc.duration_minutes }} min</td>
+  <td>{{ svc.buffer_minutes }} min</td>
+  <td>{% if svc.price %}R$ {{ "%.2f"|format(svc.price / 100) }}{% else %}-{% endif %}</td>
+  <td>{{ svc.location.name }}</td>
+  <td>{{ 'Active' if svc.is_active else 'Inactive' }}</td>
+  <td>
+    {% if svc.is_active %}
+    <button
+      hx-patch="/admin/services/{{ svc.id }}/deactivate"
+      hx-target="#service-{{ svc.id }}"
+      hx-swap="outerHTML"
+      hx-confirm="Deactivate {{ svc.name }}?"
+      class="outline"
+      style="padding: 0.25rem 0.75rem; font-size: 0.85rem;">
+      Deactivate
+    </button>
+    {% endif %}
+  </td>
+</tr>

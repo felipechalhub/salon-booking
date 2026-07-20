@@ -1,0 +1,17 @@
+{% if slots %}
+  <h3>Available times</h3>
+  <div style="display: flex; flex-wrap: wrap; gap: 0.75rem;">
+    {% for slot in slots %}
+      <a
+        href="/book/details?service_id={{ service_id }}&staff_id={{ staff_id }}&slot={{ slot['start'] }}"
+        role="button"
+        class="outline"
+        style="min-width: 90px; text-align: center;"
+      >
+        {{ slot['start'][11:16] }}
+      </a>
+    {% endfor %}
+  </div>
+{% else %}
+  <p style="color: var(--pico-muted-color);">No available slots for this date. Try another day.</p>
+{% endif %}

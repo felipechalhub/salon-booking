@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Salon Admin — Login</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+  <link rel="stylesheet" href="/static/admin.css">
+  <style>
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+    .login-card {
+      width: 100%;
+      max-width: 380px;
+      padding: 2rem;
+    }
+    .login-card h2 {
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+    .error-msg {
+      color: var(--pico-color-red-500, #c0392b);
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <article class="login-card">
+    <h2>Salon Admin</h2>
+
+    {% if error %}
+      <p class="error-msg">{{ error }}</p>
+    {% endif %}
+
+    <form method="post" action="/admin/login">
+      <label for="username">Username</label>
+      <input type="text" id="username" name="username" required autofocus autocomplete="username">
+
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" required autocomplete="current-password">
+
+      <button type="submit" style="width: 100%; margin-top: 0.5rem;">Log in</button>
+    </form>
+  </article>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Salon Admin{% endblock %}</title>
+  <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+  <link rel="stylesheet" href="/static/admin.css">
+</head>
+<body>
+
+  <nav class="container-fluid">
+    <ul>
+      <li><strong>Salon Admin</strong></li>
+    </ul>
+    <ul>
+      <li><a href="/admin">Dashboard</a></li>
+      <li><a href="/admin/appointments">Appointments</a></li>
+      <li><a href="/admin/staff">Staff</a></li>
+      <li><a href="/admin/services">Services</a></li>
+      <li>
+        <form method="post" action="/admin/logout" style="margin:0;">
+          <button type="submit" class="outline secondary" style="padding: 0.25rem 0.75rem;">Log out</button>
+        </form>
+      </li>
+    </ul>
+  </nav>
+
+  <main class="container">
+    {% block content %}{% endblock %}
+  </main>
+
+</body>
+</html>

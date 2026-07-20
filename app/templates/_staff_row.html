@@ -1,0 +1,21 @@
+<!-- app/templates/_staff_row.html -->
+<tr id="staff-{{ member.id }}">
+  <td>{{ member.full_name }}</td>
+  <td>{{ member.role or '-' }}</td>
+  <td>{{ member.location.name }}</td>
+  <td>{{ member.phone or '-' }}</td>
+  <td>{{ 'Active' if member.is_active else 'Inactive' }}</td>
+  <td>
+    {% if member.is_active %}
+    <button
+      hx-patch="/admin/staff/{{ member.id }}/deactivate"
+      hx-target="#staff-{{ member.id }}"
+      hx-swap="outerHTML"
+      hx-confirm="Deactivate {{ member.full_name }}?"
+      class="outline"
+      style="padding: 0.25rem 0.75rem; font-size: 0.85rem;">
+      Deactivate
+    </button>
+    {% endif %}
+  </td>
+</tr>
