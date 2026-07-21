@@ -1,0 +1,21 @@
+<!-- app/templates/_reschedule_slots.html -->
+{% if slots %}
+  {% for slot in slots %}
+    <button
+      type="button"
+      class="outline"
+      style="font-size: 0.85rem; padding: 0.25rem 0.75rem;"
+      onclick="
+        document.getElementById('selected-slot-{{ appointment_id }}').value = '{{ slot.start }}';
+        document.getElementById('selected-label-{{ appointment_id }}').textContent = '{{ slot.start[11:16] }}';
+        document.getElementById('save-btn-{{ appointment_id }}').disabled = false;
+        document.querySelectorAll('#reschedule-slots-{{ appointment_id }} button').forEach(b => b.classList.remove('contrast'));
+        this.classList.add('contrast');
+      "
+    >
+      {{ slot.start[11:16] }}
+    </button>
+  {% endfor %}
+{% else %}
+  <small style="color: var(--pico-muted-color);">No slots available for this date.</small>
+{% endif %}

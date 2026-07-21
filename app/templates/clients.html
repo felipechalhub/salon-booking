@@ -1,0 +1,64 @@
+<!-- app/templates/clients.html -->
+{% extends "base.html" %}
+{% block title %}Clients{% endblock %}
+
+{% block content %}
+<h2>Clients</h2>
+
+<form method="get" action="/admin/clients" style="margin-bottom: 1rem;">
+  <div class="grid">
+    <input type="text" name="search" value="{{ search }}" placeholder="Search by name or phone">
+    <button type="submit">Search</button>
+    <a href="/admin/clients" role="button" class="outline">Clear</a>
+  </div>
+  <input type="hidden" name="sort" value="{{ sort }}">
+  <input type="hidden" name="dir" value="{{ dir }}">
+</form>
+
+<table>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>
+        {% set next_dir = 'asc' if (sort == 'name' and dir == 'desc') else 'desc' %}
+        <a href="?search={{ search }}&sort=name&dir={{ next_dir }}" style="text-decoration: none; color: inherit;">
+          Name {% if sort == 'name' %}{{ '▲' if dir == 'asc' else '▼' }}{% endif %}
+        </a>
+      </th>
+      <th>Phone</th>
+      <th>Email</th>
+      <th>
+        {% set next_dir = 'asc' if (sort == 'total' and dir == 'desc') else 'desc' %}
+        <a href="?search={{ search }}&sort=total&dir={{ next_dir }}" style="text-decoration: none; color: inherit;">
+          Appointments {% if sort == 'total' %}{{ '▲' if dir == 'asc' else '▼' }}{% endif %}
+        </a>
+      </th>
+      <th>
+        {% set next_dir = 'asc' if (sort == 'last_visit' and dir == 'desc') else 'desc' %}
+        <a href="?search={{ search }}&sort=last_visit&dir={{ next_dir }}" style="text-decoration: none; color: inherit;">
+          Last Visit {% if sort == 'last_visit' %}{{ '▲' if dir == 'asc' else '▼' }}{% endif %}
+        </a>
+      </th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for row in clients %}
+    <tr>
+      <td>{{ row.client.id }}</td>
+      <td>{{ row.client.full_name }}</td>
+      <td>{{ row.client.phone }}</td>
+      <td>{{ row.client.email or '-' }}</td>
+      <td>{{ row.total }}</td>
+      <td>{{ row.last_visit.strftime('%Y-%m-%d') if row.last_visit else '-' }}</td>
+      <td>
+        <a href="/admin/clients/{{ row.client.id }}" role="button" class="outline"
+           style="padding: 0.2rem 0.6rem; font-size: 0.8rem;">
+          View
+        </a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

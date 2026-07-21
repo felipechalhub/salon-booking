@@ -1,0 +1,31 @@
+<!-- app/templates/_client_edit_form.html -->
+<article id="client-contact-card">
+  <h4>Edit contact info</h4>
+  <form
+    hx-patch="/admin/clients/{{ client.id }}"
+    hx-target="#client-contact-card"
+    hx-swap="outerHTML"
+  >
+    <label for="edit-name">Full name</label>
+    <input type="text" id="edit-name" name="full_name" value="{{ client.full_name }}" required>
+
+    <label for="edit-phone">Phone</label>
+    <input type="tel" id="edit-phone" name="phone" value="{{ client.phone }}" required>
+
+    <label for="edit-email">Email</label>
+    <input type="email" id="edit-email" name="email" value="{{ client.email or '' }}">
+
+    <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
+      <button type="submit" style="font-size: 0.85rem; padding: 0.3rem 0.8rem;">Save</button>
+      <button
+        type="button"
+        class="outline secondary"
+        style="font-size: 0.85rem; padding: 0.3rem 0.8rem;"
+        hx-get="/admin/clients/{{ client.id }}/contact-card"
+        hx-target="#client-contact-card"
+        hx-swap="outerHTML">
+        Cancel
+      </button>
+    </div>
+  </form>
+</article>

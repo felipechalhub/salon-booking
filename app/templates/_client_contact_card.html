@@ -1,0 +1,7 @@
+<!-- app/templates/_client_contact_card.html -->
+<article id="client-contact-card">
+  <h4>Contact</h4>
+  <p><strong>Name:</strong> {{ client.full_name }}</p>
+  <p><strong>Phone:</strong> {{ client.phone }}</p>
+  <p><strong>Email:</strong> {{ client.email or 'Not provided' }}</p>
+</article>

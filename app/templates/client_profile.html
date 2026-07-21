@@ -1,0 +1,89 @@
+<!-- app/templates/client_profile.html -->
+{% extends "base.html" %}
+{% block title %}{{ client.full_name }}{% endblock %}
+
+{% block content %}
+<p><a href="/admin/clients">&larr; Back to clients</a></p>
+
+<div style="display: flex; justify-content: space-between; align-items: flex-start;">
+  <div>
+    <h2>{{ client.full_name }}</h2>
+    <p style="color: var(--pico-muted-color); margin: 0;">
+      Client since {{ client.created_at.strftime('%B %Y') }}
+    </p>
+  </div>
+  <button
+    class="outline"
+    style="font-size: 0.85rem; padding: 0.3rem 0.8rem;"
+    hx-get="/admin/clients/{{ client.id }}/edit-form"
+    hx-target="#client-contact-card"
+    hx-swap="outerHTML">
+    Edit info
+  </button>
+</div>
+
+<div class="grid" style="margin-top: 1.5rem;">
+  <article>
+    <h3>{{ stats.total }}</h3>
+    <p>Total appointments</p>
+  </article>
+  <article>
+    <h3>{{ stats.completed }}</h3>
+    <p>Completed</p>
+  </article>
+  <article>
+    <h3>{{ stats.cancelled }}</h3>
+    <p>Cancelled</p>
+  </article>
+  <article>
+    <h3>R$ {{ "%.2f"|format(stats.total_spent / 100) }}</h3>
+    <p>Total spent</p>
+  </article>
+</div>
+
+<div class="grid" style="margin-top: 1.5rem;">
+  <article id="client-contact-card">
+    <h4>Contact</h4>
+    <p><strong>Name:</strong> {{ client.full_name }}</p>
+    <p><strong>Phone:</strong> {{ client.phone }}</p>
+    <p><strong>Email:</strong> {{ client.email or 'Not provided' }}</p>
+  </article>
+  <article>
+    <h4>Last visit</h4>
+    {% if stats.last_visit %}
+    <p>{{ stats.last_visit.strftime('%A, %B %d %Y at %H:%M') }}</p>
+    <p style="color: var(--pico-muted-color); font-size: 0.9rem;">{{ stats.last_service }}</p>
+    {% else %}
+    <p style="color: var(--pico-muted-color);">No completed visits yet.</p>
+    {% endif %}
+  </article>
+</div>
+
+<h3 style="margin-top: 2rem;">Appointment history</h3>
+<table>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Date & Time</th>
+      <th>Service</th>
+      <th>Staff</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for appt in appointments %}
+    <tr>
+      <td>{{ appt.id }}</td>
+      <td>{{ appt.start_time.strftime('%Y-%m-%d %H:%M') }}</td>
+      <td>{{ appt.service.name }}</td>
+      <td>{{ appt.staff.full_name }}</td>
+      <td>
+        <span class="badge badge-{{ appt.status.value }}">
+          {{ appt.status.value }}
+        </span>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

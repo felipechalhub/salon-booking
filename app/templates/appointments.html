@@ -3,31 +3,44 @@
 {% block title %}Appointments{% endblock %}
 
 {% block content %}
-<div style="display:flex; justify-content:space-between; align-items:center;">
-  <h2>Appointments</h2>
-</div>
+<h2>Appointments</h2>
 
-<!-- Filter form - submits as GET, no HTMX needed here -->
 <form method="get" action="/admin/appointments">
   <div class="grid">
     <input type="date" name="date" value="{{ filters.date }}" placeholder="Filter by date">
+    <input type="text" name="client" value="{{ filters.client }}" placeholder="Search client name">
     <select name="status">
       <option value="">All statuses</option>
-      <option value="confirmed"  {% if filters.status == 'confirmed'  %}selected{% endif %}>Confirmed</option>
-      <option value="pending"    {% if filters.status == 'pending'    %}selected{% endif %}>Pending</option>
-      <option value="cancelled"  {% if filters.status == 'cancelled'  %}selected{% endif %}>Cancelled</option>
-      <option value="completed"  {% if filters.status == 'completed'  %}selected{% endif %}>Completed</option>
+      <option value="confirmed" {% if filters.status == 'confirmed' %}selected{% endif %}>Confirmed</option>
+      <option value="pending"   {% if filters.status == 'pending'   %}selected{% endif %}>Pending</option>
+      <option value="cancelled" {% if filters.status == 'cancelled' %}selected{% endif %}>Cancelled</option>
+      <option value="completed" {% if filters.status == 'completed' %}selected{% endif %}>Completed</option>
     </select>
     <button type="submit">Filter</button>
+    <a href="/admin/appointments" role="button" class="outline">Clear</a>
   </div>
+  <input type="hidden" name="sort" value="{{ filters.sort }}">
+  <input type="hidden" name="dir" value="{{ filters.dir }}">
 </form>
 
 <table>
   <thead>
     <tr>
       <th>#</th>
-      <th>Date & Time</th>
-      <th>Client</th>
+      <th>
+        {% set next_dir = 'asc' if (filters.sort == 'date' and filters.dir == 'desc') else 'desc' %}
+        <a href="?date={{ filters.date }}&status={{ filters.status }}&client={{ filters.client }}&sort=date&dir={{ next_dir }}" style="text-decoration: none; color: inherit;">
+          Date & Time
+          {% if filters.sort == 'date' %}{{ '▲' if filters.dir == 'asc' else '▼' }}{% endif %}
+        </a>
+      </th>
+      <th>
+        {% set next_dir = 'asc' if (filters.sort == 'client' and filters.dir == 'desc') else 'desc' %}
+        <a href="?date={{ filters.date }}&status={{ filters.status }}&client={{ filters.client }}&sort=client&dir={{ next_dir }}" style="text-decoration: none; color: inherit;">
+          Client
+          {% if filters.sort == 'client' %}{{ '▲' if filters.dir == 'asc' else '▼' }}{% endif %}
+        </a>
+      </th>
       <th>Service</th>
       <th>Staff</th>
       <th>Status</th>

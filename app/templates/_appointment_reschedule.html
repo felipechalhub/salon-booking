@@ -1,0 +1,69 @@
+<!-- app/templates/_appointment_reschedule.html -->
+<tr id="appt-{{ appt.id }}">
+  <td colspan="7" style="padding: 1rem; background: var(--pico-card-background-color);">
+    <strong>Rescheduling #{{ appt.id }} &mdash; {{ appt.client.full_name }}</strong>
+    <p style="margin: 0.25rem 0 0.75rem; color: var(--pico-muted-color); font-size: 0.9rem;">
+      Current: {{ appt.start_time.strftime('%b %d, %Y at %H:%M') }} &mdash;
+      {{ appt.service.name }} with {{ appt.staff.full_name }}
+    </p>
+
+    <div style="display: flex; gap: 1.5rem; align-items: flex-start; flex-wrap: wrap;">
+      <div>
+        <label for="reschedule-date-{{ appt.id }}" style="font-size: 0.9rem;">New date</label>
+        <input
+          type="date"
+          id="reschedule-date-{{ appt.id }}"
+          name="date"
+          min="{{ today }}"
+          style="max-width: 200px;"
+          hx-get="/admin/appointments/{{ appt.id }}/slots?service_id={{ appt.service_id }}&staff_id={{ appt.staff_id }}"
+          hx-target="#reschedule-slots-{{ appt.id }}"
+          hx-trigger="change"
+          hx-include="this"
+        >
+      </div>
+
+      <div>
+        <p style="font-size: 0.9rem; margin-bottom: 0.5rem;">Select a time</p>
+        <div id="reschedule-slots-{{ appt.id }}" style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+          <small style="color: var(--pico-muted-color);">Pick a date first</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hidden input updated by slot buttons, form posts to reschedule endpoint -->
+    <form
+      id="reschedule-form-{{ appt.id }}"
+      style="margin-top: 1rem;"
+      hx-post="/admin/appointments/{{ appt.id }}/reschedule"
+      hx-target="#appt-{{ appt.id }}"
+      hx-swap="outerHTML"
+    >
+      <input type="hidden" id="selected-slot-{{ appt.id }}" name="new_start_time" value="">
+
+      <div style="display: flex; gap: 0.5rem; align-items: center;">
+        <button
+          type="submit"
+          id="save-btn-{{ appt.id }}"
+          disabled
+          style="font-size: 0.85rem; padding: 0.25rem 0.75rem;"
+        >
+          Save new time
+        </button>
+        <span id="selected-label-{{ appt.id }}" style="font-size: 0.9rem; color: var(--pico-muted-color);">
+          No time selected
+        </span>
+        <button
+          type="button"
+          class="outline secondary"
+          style="font-size: 0.85rem; padding: 0.25rem 0.75rem;"
+          hx-get="/admin/appointments/{{ appt.id }}/cancel-reschedule"
+          hx-target="#appt-{{ appt.id }}"
+          hx-swap="outerHTML"
+        >
+          Cancel
+        </button>
+      </div>
+    </form>
+  </td>
+</tr>
